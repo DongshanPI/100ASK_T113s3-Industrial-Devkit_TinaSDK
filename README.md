@@ -1,4 +1,4 @@
-# 100ASK T113 PRO开发板TinaSDK支持
+# 100ASK T113s3 Industrial DevKit 开发板TinaSDK
 
 1. 获取Tina-sdk V2.0源码 百度网盘获取地址 链接：https://pan.baidu.com/s/13uKlqDXImmMl9cgKc41tZg?pwd=qcw7 提取码：qcw7 压缩包路径在 Tina-SDK_DevelopLearningKits-V1/DongshanNezhaSTU-TinaV2.0-SDK
 2.  拷贝进Ubuntu系统内，并进行解压缩,解压命令在README里面
@@ -9,10 +9,10 @@
 4. 获取扩展支持仓库，然后加以应用
 
 ```shell
-book@ubuntu1804:~$ git clone https://github.com/DongshanPI/100ASK_T113-Pro_TinaSDK.git
-book@ubuntu1804:~$ cd 100ASK_T113-Pro_TinaSDK
-book@ubuntu1804:~/100ASK_T113-Pro_TinaSDK$ git submodule update --init
-book@ubuntu1804:~/100ASK_T113-Pro_TinaSDK$ cp ./* -rfvd ~/tina-d1-h
+book@ubuntu1804:~$ git clone https://github.com/DongshanPI/100ASK_T113s3-Industrial-Devkit_TinaSDK
+book@ubuntu1804:~$ cd 100ASK_T113s3-Industrial-Devkit_TinaSDK
+book@ubuntu1804:~/100ASK_T113s3-Industrial-Devkit_TinaSDK$ git submodule update --init
+book@ubuntu1804:~/100ASK_T113s3-Industrial-Devkit_TinaSDK$ cp ./* -rfvd ~/tina-d1-h
 ```
 
 5. 应用完成，可以进入之前解压缩过的 tina-d1-h sdk目录内，执行如下命令来开始编译T113 tinasdk
