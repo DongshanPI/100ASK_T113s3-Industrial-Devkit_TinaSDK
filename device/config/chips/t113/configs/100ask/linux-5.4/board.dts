@@ -196,6 +196,18 @@
 		function = "gpio_in";
 	};
 
+	uart4_pins_a: uart4_pins@0 {  /* For rs485 */
+                pins = "PE4", "PE5";
+                function = "uart4";
+                drive-strength = <10>;
+                bias-pull-up;
+        };
+
+        uart4_pins_b: uart4_pins@1 {  /* For rs485 */
+                pins = "PE4", "PE5";
+                function = "gpio_in";
+        };
+
 	twi0_pins_a: twi0@0 {
 		pins = "PB2", "PB3";
 		function = "twi0";
@@ -416,20 +428,20 @@
 	};
 
 	spi1_pins_a: spi1@0 {
-		pins = "PB11", "PB10", "PB9","PB8", "PB0"; /*clk mosi miso hold wp*/
-		function = "spi1";
-		drive-strength = <10>;
-	};
+                pins = "PD11", "PD12"; /*clk mosi miso hold wp*/
+                function = "spi1";
+                drive-strength = <10>;
+        };	
 
 	spi1_pins_b: spi1@1 {
-		pins = "PB12";
+		pins = "PD10";
 		function = "spi1";
 		drive-strength = <10>;
 		bias-pull-up;   // only CS should be pulled up
 	};
 
 	spi1_pins_c: spi1@2 {
-		allwinner,pins = "PB0", "PB8", "PB9", "PB10","PB11", "PB12";
+		allwinner,pins = "PD10", "PD11", "PD12", "PD13","PD14", "PD15";
 		allwinner,function = "gpio_in";
 		allwinner,muxsel = <0>;
 		drive-strength = <10>;
@@ -564,6 +576,14 @@
 	status = "okay";
 };
 
+&uart4 {
+        pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&uart4_pins_a>;
+        pinctrl-1 = <&uart4_pins_b>;
+        status = "okay";
+};
+
+
 &sdc2 {
 	non-removable;
 	bus-width = <4>;
@@ -665,7 +685,7 @@
                 compatible = "allwinner,goodix";
                 device_type = "ctp";
                 reg = <0x14>;
-                status = "okay";
+                status = "disabled";
                 ctp_name = "gt9xxnew_ts";
                 ctp_twi_id = <0x2>;
                 ctp_twi_addr = <0x14>;
@@ -676,6 +696,22 @@
                 ctp_exchange_x_y_flag = <0x0>;
                 ctp_int_port = <&pio PE 1 GPIO_ACTIVE_HIGH>;
                 ctp_wakeup = <&pio PE 0 GPIO_ACTIVE_HIGH>;
+        };
+
+	focaltech@38{
+                status = "okay";
+                compatible = "focaltech,fts";
+                reg = <0x38>;
+                interrupt-parent = <&pio>;
+                interrupts = <PE 1 IRQ_TYPE_LEVEL_LOW>;
+                focaltech,reset-gpio = <&pio PE 0 GPIO_ACTIVE_HIGH>;
+                focaltech,irq-gpio = <&pio PE 1 IRQ_TYPE_LEVEL_LOW>;
+
+                focaltech,max-touch-number = <10>;
+                focaltech,display-coords =  <0 0 320 480>;
+
+                focaltech,reg_vdd = <0x0000001f>;
+                focaltech,reg_avdd = <0x0000001f>;
         };
 };
 
@@ -707,6 +743,7 @@
                 status="okay";
         };
 };
+
 &spi1 {
 	clock-frequency = <100000000>;
 	pinctrl-0 = <&spi1_pins_a &spi1_pins_b>;
@@ -715,7 +752,7 @@
 	spi_slave_mode = <0>;
 	spi1_cs_number = <1>;
         spi1_cs_bitmap = <1>;
-	status = "disabled";
+	status = "okay";
 
 	spi_board1@0 {
 		device_type = "spi_board1";
@@ -726,6 +763,22 @@
 		spi-tx-bus-width = <0x4>;
 		status = "disabled";
 	};
+
+	st7789v@0 {
+                status = "okay";
+                compatible = "sitronix,st7789v";
+                reg = <0>;
+                spi-max-frequency = <60000000>;
+                rotate = <0>;
+                bgr;
+                fps = <60>;
+                buswidth = <8>;
+                reset = <&pio PD 15 GPIO_ACTIVE_LOW>;
+                dc = <&pio PD 14 GPIO_ACTIVE_LOW>;
+                latch = <&pio PD 16 GPIO_ACTIVE_HIGH>;
+                debug = <1>;
+        };
+
 };
 
 &ledc {
@@ -1648,7 +1701,7 @@ tvd_row*tvd_column is the total tvd channel number to be used in multichannel mo
 	pinctrl-names = "default";
 	pinctrl-0= <&can0_pins_a>;
 	pinctrl-1 = <&can0_pins_b>;
-	status = "disabled";
+	status = "okay";
 };
 
 &can1 {
