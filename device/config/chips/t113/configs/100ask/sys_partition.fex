@@ -60,7 +60,7 @@ size = 16384
 
 [partition]
     name         = rootfs
-    size         = 144000
+    size         = 154000
     downloadfile = "rootfs.fex"
     user_type    = 0x8000
 
@@ -88,7 +88,6 @@ size = 16384
 
 [partition]
     name         = UDISK
-    name         = rootfs_data
     size         = 10240
     user_type    = 0x8000
 
